@@ -1,7 +1,8 @@
+//Create default grid of n rows and cols - default colors 
 function createGrid(n) {
     for (let i = 0; i < n*n; i++) {
         const gridUnit = document.createElement('div');
-        gridUnit.classList.add = 'grid-unit';
+        gridUnit.classList.add('grid-unit');
 
         gridUnit.style.width = `${100/n}%`;
         gridUnit.style.height = `${100/n}%`;
@@ -12,10 +13,12 @@ function createGrid(n) {
 
         gridUnit.addEventListener('mouseover', () => {
             gridUnit.style['background-color'] = 'black';
+            gridUnit.classList.add('colored');
         });
     }
 };
 
+//Delete existing grid and create new default grid of n rows and cols - keep chosen colors
 function resetGrid(n, pColor, bgColor) {
     // Remove all divs in parent 
     while (grid.firstChild) {
@@ -24,7 +27,7 @@ function resetGrid(n, pColor, bgColor) {
 
     for (let i = 0; i < n*n; i++) {
         const gridUnit = document.createElement('div');
-        gridUnit.classList.add = 'grid-unit';
+        gridUnit.classList.add('grid-unit');
 
         gridUnit.style.width = `${100/n}%`;
         gridUnit.style.height = `${100/n}%`;
@@ -35,25 +38,30 @@ function resetGrid(n, pColor, bgColor) {
 
         gridUnit.addEventListener('mouseover', () => {
             gridUnit.style['background-color'] = pColor;
+            gridUnit.classList.add('colored');
         });
     }
 };
 
+// Change pen color - loop through all grids and update 'mouseover' event function
 function changePenColor(pColor) {
     const gridList = grid.children;
     for (let i = 0; i < gridList.length; i++) {
         gridList[i].addEventListener('mouseover', () => {
             gridList[i].style['background-color'] = pColor;
+            gridList[i].classList.add('colored');
         });
     }
 };
 
+// Change BG color - keep existing colored ones but change those divs without class 'colored'
 function changeBGColor(bgColor) {
     const gridList = grid.children;
     for (let i = 0; i < gridList.length; i++) {
-        gridList[i].addEventListener('mouseover', () => {
-            gridList[i].style['background-color'] = pColor;
-        });
+        if (!(gridList[i].classList.contains('colored'))) {
+            console.log(gridList[i]);
+            gridList[i].style['background-color'] = bgColor;
+        }
     }
 };
 
@@ -105,8 +113,13 @@ reset.addEventListener('click', () => {
     bgColorInput.value = '#FFFFFF';
 })
 
+// Implementation of Pen and BG color inputs to grid
 penColorInput.addEventListener('input', (e) => {
     changePenColor(`${e.target.value}`);
 });
+bgColorInput.addEventListener('input', (e) => {
+    changeBGColor(`${e.target.value}`);
+});
+
 
 
