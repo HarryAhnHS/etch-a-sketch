@@ -32,6 +32,13 @@ body {
     border: 1px solid black;
 }
 
+/* .Config-2 -> Grid size config */
+.grid-size {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 /* Grid */
 .grid-area {
