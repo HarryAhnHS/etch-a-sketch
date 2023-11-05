@@ -11,28 +11,58 @@ body {
     background-color: aliceblue;
 }
 
-.container {
-    padding: 30px;
+.sketch-content {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 50px 0;
 }
 
-.sketch-content {
+.config-area-1, .config-area-2 {
+    /* border: 1px solid aqua; */
+    flex: 1;
+}
+
+
+/* Config-1 -> } */
+.config-area-1 {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    width: 80%;
-    border: 1px solid red;
 }
 
-.config-area, .config-area-2 {
+/* Color Pickers Container */
+.color-ctr {
     width: 200px;
-    border: 1px solid black;
+    padding: 15px;
+    display:flex;
+
+    justify-content: space-around;
+    align-items: center;
+    /* border: 1px solid red; */
 }
 
-/* .Config-2 -> Grid size config */
+/* Pen color */
+.pen-color-ctr {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid blue; */
+}
+
+/* Background color */
+.bg-color-ctr {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+}
+
+/* .Config-2 -> Grid size + reset */
 
 .config-area-2 {
     display: flex;
@@ -59,9 +89,11 @@ body {
 
 /* Grid */
 .grid-area {
+    width: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
+    /* border: 1px solid blue; */
 }
 
 .grid {
@@ -70,10 +102,6 @@ body {
     flex-wrap: wrap;
     height: 500px;
     width: 500px;
-}
-
-.grid-unit:hover {
-    background-color: black;
 }
 
 

@@ -19,37 +19,47 @@
     <div class="header">
         Header
     </div>
-    <div class="container">
-        <div class="sketch-content">
-            <div class = "config-area">
-                Config
-            </div>
-            <div class = "grid-area">
-                <div class="grid">
-                
+
+    <div class="sketch-content">
+        <div class = "config-area-1">
+            <div class="color-ctr">
+                <div class="pen-color-ctr">
+                    <input type="color" id="pen-color" name="pen-color" value="#000000">
+                    <label for="pen-color">Pen</label>
+                </div>
+                <div class="bg-color-ctr">
+                    <input type="color" id="bg-color" name="bg-color" value="#FFFFFF">
+                    <label for="bg-color">Background</label>
                 </div>
             </div>
-            <div class="config-area-2">
-                <div class="grid-size-ctr">
-                    <div id="grid-range-title">
-                        Grid Size: 
-                    </div>
-                    <input type="range" id="num-grid" min="4" max="100" step="1">
-                    <div id="num-grid-feedback">
+        </div>
 
-                    </div>
-                    <button id="grid-apply">
-                        Apply
-                    </button>
-                </div>   
-                <div class="reset-ctr">
-                    <button id="reset-grid">
-                        Reset
-                    </button>
-                </div> 
+        <div class = "grid-area">
+            <div class="grid">
+            
             </div>
         </div>
+        <div class="config-area-2">
+            <div class="grid-size-ctr">
+                <div id="grid-range-title">
+                    Grid Size: 
+                </div>
+                <input type="range" id="num-grid" min="4" max="100" step="1">
+                <div id="num-grid-feedback">
+
+                </div>
+                <button id="grid-apply">
+                    Apply
+                </button>
+            </div>   
+            <div class="reset-ctr">
+                <button id="reset-grid">
+                    Reset
+                </button>
+            </div> 
+        </div>
     </div>
+
 
     <div class="footer">
         &copy; Copyright by @HarryAhnHS 
