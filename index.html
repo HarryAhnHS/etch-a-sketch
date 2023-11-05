@@ -30,7 +30,15 @@
                 </div>
             </div>
             <div class="config-area-2">
-                Config-2
+                <div class="grid-range">
+                    <div id="grid-range-title">
+                        Grid Size: 
+                    </div>
+                    <input type="range" id="num-grid" min="4" max="100" step="1" onchange="updateRangeFeedback(this.value);">
+                    <div id="num-grid-feedback">
+
+                    </div>
+                </div>    
             </div>
         </div>
     </div>

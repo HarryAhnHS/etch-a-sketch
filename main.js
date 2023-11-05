@@ -42,8 +42,28 @@ function resetGrid(n) {
 
 // Create n x n grid of divs within .sketchbook
 const grid = document.querySelector('.grid');
+const defaultSize = 16;
 
-createGrid(250);
+createGrid(defaultSize);
+
+// Grid size range input
+const range = document.querySelector('#num-grid');
+const rangeFeedback = document.querySelector('#num-grid-feedback');
+
+// Default range value
+range.value = defaultSize;
+rangeFeedback.textContent = `${defaultSize} x ${defaultSize}`;
+
+// Helper function to update range feedback
+function updateRangeFeedback(input) {
+    const rangeFeedback = document.querySelector('#num-grid-feedback');
+    rangeFeedback.textContent = `${input} x ${input}`;
+};
+
+range.addEventListener('change', () => {
+    resetGrid(range.value);
+});
+
 
 
 

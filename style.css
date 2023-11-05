@@ -28,7 +28,8 @@ body {
 }
 
 .config-area, .config-area-2 {
-    width: 20%;
+    width: 200px;
+    border: 1px solid black;
 }
 
 
