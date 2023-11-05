@@ -33,11 +33,28 @@ body {
 }
 
 /* .Config-2 -> Grid size config */
-.grid-size {
+
+.config-area-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+
+.grid-size-ctr {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+}
+
+.reset-ctr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
 }
 
 /* Grid */

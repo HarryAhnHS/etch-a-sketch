@@ -52,21 +52,28 @@ const rangeFeedback = document.querySelector('#num-grid-feedback');
 // Default range value and label
 range.value = defaultSize;
 rangeFeedback.textContent = `${defaultSize} x ${defaultSize}`;
-var inputSize = range.value;
 
+var inputSize = range.value;
 // update range feedback for each tick of range input
 range.addEventListener('input', (e) => {
     rangeFeedback.textContent = `${e.target.value} x ${e.target.value}`;
     inputSize = e.target.value;
 });
 
+// apply button for grid size range input
 const rangeApply = document.querySelector('#grid-apply');
-
 rangeApply.addEventListener('click', () => {
     resetGrid(inputSize);
 });
 
+// reset button
+const reset = document.querySelector('#reset-grid');
+reset.addEventListener('click', () => {
+    resetGrid(defaultSize);
+    range.value = defaultSize;
+    rangeFeedback.textContent = `${defaultSize} x ${defaultSize}`;
 
+})
 
 
 
