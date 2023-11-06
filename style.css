@@ -24,6 +24,51 @@ body {
     flex: 1;
 }
 
+/* Toggle */
+.toggle-ctr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toggle {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    border: 2px solid #494949;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.circle {
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #494949;
+    transition: .3s;
+}
+
+.active {
+    border-color: rgb(85, 227, 180);
+}
+
+.active + .toggle-text {
+    color: rgb(85, 227, 180);
+}
+
+.active .circle {
+    left: 100%;
+    transform: translateX(-100%);
+    transition: .3s;
+    background-color: rgb(85, 227, 180);
+}
+
 
 /* Config-1 -> } */
 .config-area-1 {

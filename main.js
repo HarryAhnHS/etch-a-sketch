@@ -10,16 +10,11 @@ function createGrid(n) {
         gridUnit.style['background-color'] = 'white';
 
         grid.appendChild(gridUnit);
-
-        gridUnit.addEventListener('mouseover', () => {
-            gridUnit.style['background-color'] = 'black';
-            gridUnit.classList.add('colored');
-        });
     }
 };
 
 //Delete existing grid and create new default grid of n rows and cols - keep chosen colors
-function resetGrid(n, pColor, bgColor) {
+function resetGrid(n, bgColor) {
     // Remove all divs in parent 
     while (grid.firstChild) {
         grid.removeChild(grid.firstChild);
@@ -35,22 +30,30 @@ function resetGrid(n, pColor, bgColor) {
         gridUnit.style['background-color'] = bgColor;
 
         grid.appendChild(gridUnit);
-
-        gridUnit.addEventListener('mouseover', () => {
-            gridUnit.style['background-color'] = pColor;
-            gridUnit.classList.add('colored');
-        });
     }
 };
 
-// Change pen color - loop through all grids and update 'mouseover' event function
-function changePenColor(pColor) {
+
+// End pen; Remove mouseover event
+function endPen() {
     const gridList = grid.children;
     for (let i = 0; i < gridList.length; i++) {
-        gridList[i].addEventListener('mouseover', () => {
-            gridList[i].style['background-color'] = pColor;
-            gridList[i].classList.add('colored');
-        });
+        gridList[i].removeEventListener('mouseover',colorPen);
+        console.log('removed');
+    }
+}
+
+// Helper func for mouseover event in changePenColor - get color input value
+function colorPen() {
+    this.style['background-color'] = penColorInput.value;
+    this.classList.add('colored');
+}
+
+// Add pen color  - loop through all grids and update 'mouseover' event function
+function changePenColor() {
+    const gridList = grid.children;
+    for (let i = 0; i < gridList.length; i++) {
+        gridList[i].addEventListener('mouseover', colorPen);
     }
 };
 
@@ -59,18 +62,49 @@ function changeBGColor(bgColor) {
     const gridList = grid.children;
     for (let i = 0; i < gridList.length; i++) {
         if (!(gridList[i].classList.contains('colored'))) {
-            console.log(gridList[i]);
             gridList[i].style['background-color'] = bgColor;
         }
     }
 };
 
+// Reset toggle button to Off if currently active
+function resetToggle() {
+    let toggle = document.querySelector('.toggle');
+    let text = document.querySelector('.toggle-text');
+    if (active) {
+        active = false;
+        toggle.classList.remove('active');
+        text.textContent = 'Off';
+        endPen();
+    }
+};
+
 // MAIN EXEC:
+
 // Create n x n grid of divs 
 const grid = document.querySelector('.grid');
 const defaultSize = 16;
 
 createGrid(defaultSize);
+
+// TOGGLE - for pen coloring
+let active = false;
+
+function toggle() {
+    let toggle = document.querySelector('.toggle');
+    let text = document.querySelector('.toggle-text');
+    active = !active;
+    if (active) {
+        toggle.classList.add('active');
+        text.textContent = 'On';
+        changePenColor();
+    } else {
+        toggle.classList.remove('active')
+        text.innerHTML = 'Off';
+        endPen();
+    }
+}
+
 
 // Default colors: 
 const defaultPenColor = '#000000';
@@ -99,24 +133,31 @@ range.addEventListener('input', (e) => {
 // Apply button for grid size range input - Keep colors and background
 const rangeApply = document.querySelector('#grid-apply');
 rangeApply.addEventListener('click', () => {
-    resetGrid(inputSize, penColorInput.value, bgColorInput.value);
+    // Toggle Off
+    resetToggle();
+    resetGrid(inputSize, `${bgColorInput.value}`);
 });
 
 // Reset button - reset colors, backgrounds, grid size to default
 const reset = document.querySelector('#reset-grid');
 reset.addEventListener('click', () => {
-    resetGrid(defaultSize, defaultPenColor, defaultBGColor);
-    range.value = defaultSize;
-    rangeFeedback.textContent = `${defaultSize} x ${defaultSize}`;
+    // Toggle Off
+    resetToggle();
 
+    // Reset colors to default
     penColorInput.value = '#000000';
     bgColorInput.value = '#FFFFFF';
-})
+
+    resetGrid(defaultSize, defaultBGColor);
+    range.value = defaultSize;
+    rangeFeedback.textContent = `${defaultSize} x ${defaultSize}`;
+});
 
 // Implementation of Pen and BG color inputs to grid
 penColorInput.addEventListener('input', (e) => {
-    changePenColor(`${e.target.value}`);
+    if (active) changePenColor();
 });
+
 bgColorInput.addEventListener('input', (e) => {
     changeBGColor(`${e.target.value}`);
 });
