@@ -11,16 +11,18 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;1,200&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Poppins:ital,wght@0,300;1,200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;1,200&family=Kaushan+Script&family=Poppins:ital,wght@0,300;1,200&display=swap" rel="stylesheet">
 
 </head>
 <body>
     <div class="header">
-        Header
+        Etch-A-Sketch
     </div>
 
     <div class="toggle-ctr">
+        <div class="toggle-header">
+            Press&nbsp;<p id="spacebar-txt">Spacebar</p>&nbsp;to Toggle Pen
+        </div>
         <div class="toggle" onclick="toggle()">
             <div class="circle"></div>
         </div>
@@ -31,15 +33,22 @@
         <div class = "config-area-1">
             <div class="color-ctr">
                 <div class="pen-color-ctr">
-                    <label for="pen-color">Pen</label>
                     <input type="color" id="pen-color" name="pen-color" value="#000000">
+                    <label for="pen-color">Pen</label>
                 </div>
                 <div class="bg-color-ctr">
-                    <label for="bg-color">Background</label>
                     <input type="color" id="bg-color" name="bg-color" value="#FFFFFF">
+                    <label for="bg-color">Background</label>
                 </div>
             </div>
+                <div class="eraser-ctr">
+                    <button id="eraser" onclick="eraserToggle()">Eraser</button>
+                </div>  
+                <div class="rgb-mode-ctr">
+                    <button id="rgb-mode">RGB</button>
+                </div>
         </div>
+
 
         <div class = "grid-area">
             <div class="grid">
@@ -64,6 +73,14 @@
                     Reset
                 </button>
             </div> 
+            <div class="options-ctr">
+                <div class="show-grid-ctr">
+                    Show Grid
+                </div>
+                <div class="click-mode-ctr">
+                    Click Mode
+                </div>
+            </div>
         </div>
     </div>
 

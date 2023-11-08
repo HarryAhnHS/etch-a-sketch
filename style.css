@@ -8,7 +8,12 @@ body {
 
 .header {
     padding: 30px;
-    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Josefin Sans', 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 72px;
 }
 
 .sketch-content {
@@ -16,26 +21,41 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 50px 0;
+    margin-bottom: 70px;
 }
 
 .config-area-1, .config-area-2 {
-    /* border: 1px solid aqua; */
     flex: 1;
 }
 
 /* Toggle */
-.toggle-ctr {
+.toggle-header {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-style: italic;
+    font-weight: 300;
+}
+
+#spacebar-txt {
+    color: #e63946;
+}
+
+.toggle-ctr {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid black;
 }
 
 .toggle {
     position: relative;
     width: 40px;
     height: 20px;
-    border: 2px solid #494949;
+    border: 2px solid #e63946;
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -50,8 +70,14 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 20px;
-    background-color: #494949;
+    background-color: #e63946;
     transition: .3s;
+}
+
+.toggle-text {
+    font-size: 12px;
+    margin-top: -6px;
+    color: #e63946;
 }
 
 .active {
@@ -69,12 +95,17 @@ body {
     background-color: rgb(85, 227, 180);
 }
 
+.toggle-header:has(+ .active) #spacebar-txt {
+    color: rgb(85, 227, 180);
+    transition: all .3s;
+}
+
 
 /* Config-1 -> } */
 .config-area-1 {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
 
@@ -83,10 +114,9 @@ body {
     width: 200px;
     padding: 15px;
     display:flex;
-
     justify-content: space-around;
     align-items: center;
-    /* border: 1px solid red; */
+    border: 1px solid red;
 }
 
 /* Pen color */
@@ -107,6 +137,11 @@ body {
     /* border: 1px solid black; */
 }
 
+/* Eraser Button */
+.eraserActive {
+    background-color: aquamarine;
+}
+
 /* .Config-2 -> Grid size + reset */
 
 .config-area-2 {
@@ -114,7 +149,6 @@ body {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    padding: 10px;
 }
 
 .grid-size-ctr {
@@ -143,10 +177,17 @@ body {
 
 .grid {
     display: flex;
-    border: 1px solid black;
+    border: 3px solid #e63946;
+    transition: 0.3s;
     flex-wrap: wrap;
     height: 500px;
     width: 500px;
+}
+
+.active-grid {
+    border-color: rgb(85, 227, 180);
+    border-width: 3px;
+    transition: all .3s;
 }
 
 

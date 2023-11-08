@@ -1,4 +1,4 @@
-//Create default grid of n rows and cols - default colors 
+// FUNCTION: Create default grid of n rows and cols - default colors 
 function createGrid(n) {
     for (let i = 0; i < n*n; i++) {
         const gridUnit = document.createElement('div');
@@ -13,13 +13,12 @@ function createGrid(n) {
     }
 };
 
-//Delete existing grid and create new default grid of n rows and cols - keep chosen colors
+// FUNCTION: Delete existing grid and create new default grid of n rows and cols - keep chosen colors
 function resetGrid(n, bgColor) {
     // Remove all divs in parent 
     while (grid.firstChild) {
         grid.removeChild(grid.firstChild);
     }
-
     for (let i = 0; i < n*n; i++) {
         const gridUnit = document.createElement('div');
         gridUnit.classList.add('grid-unit');
@@ -34,30 +33,78 @@ function resetGrid(n, bgColor) {
 };
 
 
-// End pen; Remove mouseover event
+// FUNCTION: End pen; Remove mouseover event from all grids
 function endPen() {
     const gridList = grid.children;
     for (let i = 0; i < gridList.length; i++) {
-        gridList[i].removeEventListener('mouseover',colorPen);
+        gridList[i].removeEventListener('mouseover',fillUnit);
+        gridList[i].removeEventListener('click',fillUnit);
+        gridList[i].removeEventListener('mouseover',eraseUnit);
+        gridList[i].removeEventListener('click',eraseUnit);
         console.log('removed');
     }
 }
 
-// Helper func for mouseover event in changePenColor - get color input value
-function colorPen() {
+// FUNCTION: Helper func for mouseover event in changePenColor - get color input value and change color
+function fillUnit() {
     this.style['background-color'] = penColorInput.value;
     this.classList.add('colored');
 }
 
-// Add pen color  - loop through all grids and update 'mouseover' event function
+// FUNCTION: Add/Change pen color mouseover based on current penColorInput  - all grids update 'mouseover' event
 function changePenColor() {
+    // Edgecase #1 - when toggle pen while mouseover a cell, then change the initial cell background
+    function getMousePos(e) {
+        console.log(document.elementFromPoint(e.clientX, e.clientY));
+        const initElement = document.elementFromPoint(e.clientX, e.clientY);
+
+        if (initElement.classList.contains("grid-unit")) {
+            initElement.style['background-color'] = penColorInput.value;
+            initElement.classList.add('colored');
+        }
+        document.removeEventListener('mousemove', getMousePos);
+    }
+    document.addEventListener('mousemove', getMousePos);
+    
+    // Add event listener to all grid children
     const gridList = grid.children;
     for (let i = 0; i < gridList.length; i++) {
-        gridList[i].addEventListener('mouseover', colorPen);
+        gridList[i].addEventListener('mouseover', fillUnit);
+        gridList[i].addEventListener('click', fillUnit);
     }
 };
 
-// Change BG color - keep existing colored ones but change those divs without class 'colored'
+// FUNCTION: change pen color to current background color, and remove 'colored' tag
+function setEraser() {
+    // Edgecase #1 - when toggle pen while mouseover a cell
+    function getMousePos(e) {
+        console.log(document.elementFromPoint(e.clientX, e.clientY));
+        const initElement = document.elementFromPoint(e.clientX, e.clientY);
+
+        if (initElement.classList.contains("grid-unit") && initElement.classList.contains("colored")) {
+            initElement.style['background-color'] = bgColorInput.value;
+            initElement.classList.remove('colored');
+        }
+        document.removeEventListener('mousemove', getMousePos);
+    }
+    document.addEventListener('mousemove', getMousePos);
+    
+    // Add event listener to all grid children
+    const gridList = grid.children;
+    for (let i = 0; i < gridList.length; i++) {
+        gridList[i].addEventListener('mouseover', eraseUnit);
+        gridList[i].addEventListener('click', eraseUnit);
+    }
+};
+
+function eraseUnit() {
+    if (this.classList.contains('colored')) {
+        this.style['background-color'] = bgColorInput.value;
+        this.classList.remove('colored');
+    }
+}
+
+// FUNCTION: Change BG color - keep existing colored ones but change those divs without class 'colored'
 function changeBGColor(bgColor) {
     const gridList = grid.children;
     for (let i = 0; i < gridList.length; i++) {
@@ -67,7 +114,7 @@ function changeBGColor(bgColor) {
     }
 };
 
-// Reset toggle button to Off if currently active
+// FUNCTION: Reset toggle button to Off if currently active
 function resetToggle() {
     let toggle = document.querySelector('.toggle');
     let text = document.querySelector('.toggle-text');
@@ -96,14 +143,48 @@ function toggle() {
     active = !active;
     if (active) {
         toggle.classList.add('active');
+        grid.classList.add('active-grid');
         text.textContent = 'On';
-        changePenColor();
+        if (erase) setEraser();
+        else changePenColor();
     } else {
         toggle.classList.remove('active')
+        grid.classList.remove('active-grid');
         text.innerHTML = 'Off';
         endPen();
     }
 }
+
+// Key toggle to spacebar
+window.addEventListener('keydown', function (e) {
+    if (e.code === 'Space') {
+        e.preventDefault(); // prevent default scrolling 
+        toggle();
+    }
+});
+
+// Toggle for eraser
+let erase = false;
+function eraserToggle() {
+    const eraseBtn = document.querySelector('#eraser');
+    erase = !erase;
+    if (erase) {
+        console.log('erase on');
+        eraseBtn.classList.add('eraserActive');
+        if (active) setEraser();
+    } else {
+        console.log('erase off')
+        eraseBtn.classList.remove('eraserActive')
+        if (active) changePenColor();
+    }
+}
+
+function resetEraserToggle() {
+    if (erase) {
+        erase = false;
+        if (active) changePenColor();
+    }
+};
 
 
 // Default colors: 
@@ -155,6 +236,7 @@ reset.addEventListener('click', () => {
 
 // Implementation of Pen and BG color inputs to grid
 penColorInput.addEventListener('input', (e) => {
+    if (erase) 
     if (active) changePenColor();
 });
 
