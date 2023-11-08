@@ -21,7 +21,7 @@
 
     <div class="toggle-ctr">
         <div class="toggle-header">
-            Press&nbsp;<p id="spacebar-txt">Spacebar</p>&nbsp;to Toggle Pen
+            Press&nbsp;<p id="spacebar-txt">Spacebar</p>&nbsp;to Toggle Etch-A-Sketch
         </div>
         <div class="toggle" onclick="toggle()">
             <div class="circle"></div>
@@ -41,12 +41,19 @@
                     <label for="bg-color">Background</label>
                 </div>
             </div>
-                <div class="eraser-ctr">
-                    <button id="eraser" onclick="eraserToggle()">Eraser</button>
-                </div>  
-                <div class="rgb-mode-ctr">
-                    <button id="rgb-mode">RGB</button>
+
+            <div class="eraser-ctr">
+                <div class="toggle-eraser">    
+                    Press&nbsp;<p id="eraser-txt">E</p>&nbsp;to Toggle Eraser
                 </div>
+                <button id="eraser" onclick="eraserToggle()">Eraser</button>
+            </div>  
+            <div class="rgb-ctr">
+                <div class="toggle-rgb">    
+                    Press&nbsp;<p id="rgb-txt">C</p>&nbsp;to Toggle RGB Mode
+                </div>
+                <button id="rgb-mode" onclick="rgbToggle()">Rainbow</button>
+            </div>
         </div>
 
 

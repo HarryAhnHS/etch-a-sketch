@@ -41,18 +41,17 @@ function endPen() {
         gridList[i].removeEventListener('click',fillUnit);
         gridList[i].removeEventListener('mouseover',eraseUnit);
         gridList[i].removeEventListener('click',eraseUnit);
+        gridList[i].removeEventListener('mouseover',RGBUnit);
+        gridList[i].removeEventListener('click',RGBUnit);
         console.log('removed');
     }
 }
 
-// FUNCTION: Helper func for mouseover event in changePenColor - get color input value and change color
-function fillUnit() {
-    this.style['background-color'] = penColorInput.value;
-    this.classList.add('colored');
-}
+
 
 // FUNCTION: Add/Change pen color mouseover based on current penColorInput  - all grids update 'mouseover' event
 function changePenColor() {
+    endPen(); // Reset previous events 
     // Edgecase #1 - when toggle pen while mouseover a cell, then change the initial cell background
     function getMousePos(e) {
         console.log(document.elementFromPoint(e.clientX, e.clientY));
@@ -73,9 +72,16 @@ function changePenColor() {
         gridList[i].addEventListener('click', fillUnit);
     }
 };
+// FUNCTION: Helper func for mouseover event in changePenColor - get color input value and change color
+function fillUnit() {
+    this.style['background-color'] = penColorInput.value;
+    this.classList.add('colored');
+}
+
 
 // FUNCTION: change pen color to current background color, and remove 'colored' tag
 function setEraser() {
+    endPen(); // Reset previous events 
     // Edgecase #1 - when toggle pen while mouseover a cell
     function getMousePos(e) {
         console.log(document.elementFromPoint(e.clientX, e.clientY));
@@ -104,6 +110,37 @@ function eraseUnit() {
     }
 }
 
+// FUNCTION: change pen color to random RGB, and add 'colored' tag
+function setRGB() {
+    endPen(); // Reset previous events 
+    // Edgecase #1 - when toggle pen while mouseover a cell
+    function getMousePos(e) {
+        console.log(document.elementFromPoint(e.clientX, e.clientY));
+        const initElement = document.elementFromPoint(e.clientX, e.clientY);
+
+        if (initElement.classList.contains("grid-unit") && initElement.classList.contains("colored")) {
+            var randomColor = Math.floor(Math.random()*16777215).toString(16);
+            initElement.style['background-color'] = `#${randomColor}`;
+            initElement.classList.add('colored');
+        }
+        document.removeEventListener('mousemove', getMousePos);
+    }
+    document.addEventListener('mousemove', getMousePos);
+    
+    // Add event listener to all grid children
+    const gridList = grid.children;
+    for (let i = 0; i < gridList.length; i++) {
+        gridList[i].addEventListener('mouseover', RGBUnit);
+        gridList[i].addEventListener('click', RGBUnit);
+    }
+};
+function RGBUnit() {
+        var randomColor = Math.floor(Math.random()*16777215).toString(16);
+        this.style['background-color'] = `#${randomColor}`;
+        this.classList.add('colored');
+}
+
+
 // FUNCTION: Change BG color - keep existing colored ones but change those divs without class 'colored'
 function changeBGColor(bgColor) {
     const gridList = grid.children;
@@ -114,7 +151,8 @@ function changeBGColor(bgColor) {
     }
 };
 
-// FUNCTION: Reset toggle button to Off if currently active
+
+// FUNCTION: Reset all toggle buttons to Off if currently active
 function resetToggle() {
     let toggle = document.querySelector('.toggle');
     let text = document.querySelector('.toggle-text');
@@ -123,8 +161,19 @@ function resetToggle() {
         toggle.classList.remove('active');
         text.textContent = 'Off';
         endPen();
+        if (rgb) {
+            rgb = false;
+            const rgbBtn = document.querySelector('#rgb-mode');
+            rgbBtn.classList.remove('rgbActive');
+        }
+        if (erase) {
+            erase = false;
+            const eraserBtn = document.querySelector('#eraser');
+            eraserBtn.classList.remove('eraserActive');
+        }
     }
 };
+
 
 // MAIN EXEC:
 
@@ -134,7 +183,7 @@ const defaultSize = 16;
 
 createGrid(defaultSize);
 
-// TOGGLE - for pen coloring
+// TOGGLE - for pen
 let active = false;
 
 function toggle() {
@@ -146,6 +195,7 @@ function toggle() {
         grid.classList.add('active-grid');
         text.textContent = 'On';
         if (erase) setEraser();
+        else if (rgb) setRGB();
         else changePenColor();
     } else {
         toggle.classList.remove('active')
@@ -169,22 +219,66 @@ function eraserToggle() {
     const eraseBtn = document.querySelector('#eraser');
     erase = !erase;
     if (erase) {
+        // Edgecase - if rgb is on when erase is toggled, then auto turn off rgb
+        if (rgb) {
+            rgb = false;
+            const rgbBtn = document.querySelector('#rgb-mode');
+            rgbBtn.classList.remove('rgbActive');
+        }
         console.log('erase on');
         eraseBtn.classList.add('eraserActive');
         if (active) setEraser();
     } else {
         console.log('erase off')
         eraseBtn.classList.remove('eraserActive')
-        if (active) changePenColor();
+        if (active) {
+            if (rgb) setRGB();
+            else changePenColor();
+        }
+    }   
+}
+// Key toggle for eraser
+window.addEventListener('keydown', function (e) {
+    if (e.code === 'KeyE') {
+        e.preventDefault(); // prevent default scrolling 
+        eraserToggle();
+    }
+});
+
+
+// Toggle for RGB
+let rgb = false;
+function rgbToggle() {
+    const rgbBtn = document.querySelector('#rgb-mode');
+    rgb = !rgb;
+    if (rgb) {
+        // Edgecase - if eraer is on when rgb is toggled, then auto turn off erase
+        if (erase) {
+            erase = false;
+            const eraserBtn = document.querySelector('#eraser');
+            eraserBtn.classList.remove('eraserActive');
+        }
+        console.log('rgb on');
+        rgbBtn.classList.add('rgbActive');
+        if (active) setRGB();
+    } else {
+        console.log('rgb off')
+        rgbBtn.classList.remove('rgbActive')
+        if (active) {
+            if (erase) setEraser();
+            else changePenColor();
+        }
     }
 }
-
-function resetEraserToggle() {
-    if (erase) {
-        erase = false;
-        if (active) changePenColor();
+// Key toggle for eraser
+window.addEventListener('keydown', function (e) {
+    if (e.code === 'KeyC') {
+        e.preventDefault(); // prevent default scrolling 
+        rgbToggle();
     }
-};
+});
+
+
 
 
 // Default colors: 
@@ -236,7 +330,6 @@ reset.addEventListener('click', () => {
 
 // Implementation of Pen and BG color inputs to grid
 penColorInput.addEventListener('input', (e) => {
-    if (erase) 
     if (active) changePenColor();
 });
 

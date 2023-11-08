@@ -111,8 +111,8 @@ body {
 
 /* Color Pickers Container */
 .color-ctr {
-    width: 200px;
-    padding: 15px;
+    width: 240px;
+    padding: 20px 0;
     display:flex;
     justify-content: space-around;
     align-items: center;
@@ -137,10 +137,31 @@ body {
     /* border: 1px solid black; */
 }
 
-/* Eraser Button */
-.eraserActive {
+/* Eraser + RGB Button */
+.eraserActive, .rgbActive {
     background-color: aquamarine;
 }
+
+
+.eraser-ctr, .rgb-ctr{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    width: 240px;
+    padding: 20px 0 ;
+}
+
+/* Eraser and RGB Text */
+.toggle-eraser, .toggle-rgb{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    font-weight: 300;
+}
+
 
 /* .Config-2 -> Grid size + reset */
 
