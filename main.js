@@ -8,6 +8,7 @@ function createGrid(n) {
         gridUnit.style.height = `${100/n}%`;
         gridUnit.style.flex = 'auto';
         gridUnit.style['background-color'] = 'white';
+        gridUnit.style['outline'] = '1px solid #F9F9F9';
 
         grid.appendChild(gridUnit);
     }
@@ -27,6 +28,7 @@ function resetGrid(n, bgColor) {
         gridUnit.style.height = `${100/n}%`;
         gridUnit.style.flex = 'auto';
         gridUnit.style['background-color'] = bgColor;
+        gridUnit.style['outline'] = '1px solid #F9F9F9';
 
         grid.appendChild(gridUnit);
     }
@@ -159,6 +161,8 @@ function resetToggle() {
     if (active) {
         active = false;
         toggle.classList.remove('active');
+        grid.classList.remove('active-grid');
+        reset.classList.remove('active-reset');
         text.textContent = 'Off';
         endPen();
         if (rgb) {
@@ -180,6 +184,7 @@ function resetToggle() {
 // Create n x n grid of divs 
 const grid = document.querySelector('.grid');
 const defaultSize = 16;
+const reset = document.querySelector('#reset-grid');
 
 createGrid(defaultSize);
 
@@ -193,6 +198,7 @@ function toggle() {
     if (active) {
         toggle.classList.add('active');
         grid.classList.add('active-grid');
+        reset.classList.add('active-reset');
         text.textContent = 'On';
         if (erase) setEraser();
         else if (rgb) setRGB();
@@ -200,6 +206,7 @@ function toggle() {
     } else {
         toggle.classList.remove('active')
         grid.classList.remove('active-grid');
+        reset.classList.remove('active-reset');
         text.innerHTML = 'Off';
         endPen();
     }
@@ -216,13 +223,13 @@ window.addEventListener('keydown', function (e) {
 // Toggle for eraser
 let erase = false;
 function eraserToggle() {
-    const eraseBtn = document.querySelector('#eraser');
+    const eraseBtn = document.querySelector('.eraser-ctr');
     erase = !erase;
     if (erase) {
         // Edgecase - if rgb is on when erase is toggled, then auto turn off rgb
         if (rgb) {
             rgb = false;
-            const rgbBtn = document.querySelector('#rgb-mode');
+            const rgbBtn = document.querySelector('.rgb-ctr');
             rgbBtn.classList.remove('rgbActive');
         }
         console.log('erase on');
@@ -249,13 +256,13 @@ window.addEventListener('keydown', function (e) {
 // Toggle for RGB
 let rgb = false;
 function rgbToggle() {
-    const rgbBtn = document.querySelector('#rgb-mode');
+    const rgbBtn = document.querySelector('.rgb-ctr');
     rgb = !rgb;
     if (rgb) {
         // Edgecase - if eraer is on when rgb is toggled, then auto turn off erase
         if (erase) {
             erase = false;
-            const eraserBtn = document.querySelector('#eraser');
+            const eraserBtn = document.querySelector('.eraser-ctr');
             eraserBtn.classList.remove('eraserActive');
         }
         console.log('rgb on');
@@ -272,13 +279,10 @@ function rgbToggle() {
 }
 // Key toggle for eraser
 window.addEventListener('keydown', function (e) {
-    if (e.code === 'KeyC') {
-        e.preventDefault(); // prevent default scrolling 
+    if (e.code === 'KeyR') {
         rgbToggle();
     }
 });
-
-
 
 
 // Default colors: 
@@ -314,7 +318,6 @@ rangeApply.addEventListener('click', () => {
 });
 
 // Reset button - reset colors, backgrounds, grid size to default
-const reset = document.querySelector('#reset-grid');
 reset.addEventListener('click', () => {
     // Toggle Off
     resetToggle();

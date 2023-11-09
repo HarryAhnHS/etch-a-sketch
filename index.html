@@ -42,18 +42,10 @@
                 </div>
             </div>
 
-            <div class="eraser-ctr">
-                <div class="toggle-eraser">    
-                    Press&nbsp;<p id="eraser-txt">E</p>&nbsp;to Toggle Eraser
-                </div>
-                <button id="eraser" onclick="eraserToggle()">Eraser</button>
-            </div>  
-            <div class="rgb-ctr">
-                <div class="toggle-rgb">    
-                    Press&nbsp;<p id="rgb-txt">C</p>&nbsp;to Toggle RGB Mode
-                </div>
-                <button id="rgb-mode" onclick="rgbToggle()">Rainbow</button>
-            </div>
+            <button class="eraser-ctr" onclick="eraserToggle()">Eraser</button>
+            <div class="key-explanation">Press E to Toggle Eraser</div>
+            <button class="rgb-ctr" onclick="rgbToggle()">Rainbow</button>
+            <div class="key-explanation">Press R to Toggle Rainbow Mode</div>
         </div>
 
 
@@ -75,21 +67,13 @@
                     Apply
                 </button>
             </div>   
-            <div class="reset-ctr">
-                <button id="reset-grid">
-                    Reset
-                </button>
-            </div> 
-            <div class="options-ctr">
-                <div class="show-grid-ctr">
-                    Show Grid
-                </div>
-                <div class="click-mode-ctr">
-                    Click Mode
-                </div>
-            </div>
         </div>
     </div>
+    <div class="reset-ctr">
+        <button id="reset-grid">
+            Reset
+        </button>
+    </div> 
 
 
     <div class="footer">
